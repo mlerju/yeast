@@ -6,13 +6,13 @@ A machine learning pipeline for predicting Open Reading Frames (ORFs) in the *Sa
 
 ## Project Overview
 
-This project aims to distinguish between true coding ORFs and non-coding sequences based on genomic features. It uses XGBoost for classification and includes model interpretation with SHAP.
+This project aims to distinguish between true coding ORFs and non-coding sequences based on genomic features. It uses a GPU-accelerated XGBoost model for classification.
 
 ---
 
 ## Dataset
 
-**Input**: ORFs predicted from the yeast genome
+**Input**: ORFs predicted from the yeast genome. Genome can be obtained via: https://www.ncbi.nlm.nih.gov/datasets/genome/GCF_000146045.2/
 
 **Features**:
 
@@ -30,9 +30,9 @@ This project aims to distinguish between true coding ORFs and non-coding sequenc
 1. **Preprocessing**: Feature scaling, missing value imputation (if needed).
 2. **Train-Test Split**: Stratified 75/25 split.
 3. **Bayesian Optimization**: XGBoost hyperparameters tuned with Optuna.
-4. **Model Training**: GPU-accelerated XGBoost (`tree_method="hist"`, `device="cuda"`).
-5. **Evaluation**: Classification report, ROC AUC.
-6. **Interpretability**: Feature importance with SHAP.
+4. **Model Training**: GPU-accelerated XGBoost (`device="cuda"`).
+5. **Evaluation**: Confusion Matrix, Classification report, ROC AUC.
+6. **Interpretability**: Feature importance.
 
 ---
 
@@ -56,7 +56,7 @@ This project aims to distinguish between true coding ORFs and non-coding sequenc
 
 ## Interpretability
 
-SHAP summary plots were used to interpret model predictions. Partial dependence plots showed plateauing effects of `length_y` and `length_x`, and a sharp drop for `stop_percent` below \~0.005.
+Partial dependence plots showed plateauing effects of `length_y` and `length_x`, and a sharp drop for `stop_percent` below \~0.005.
 
 ---
 
