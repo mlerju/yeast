@@ -1,79 +1,92 @@
-# Yeast ORF Classifier with XGBoost and Optuna
+# 🧬 Yeast ORF Classifier with XGBoost & Optuna
 
-A machine learning pipeline for predicting Open Reading Frames (ORFs) in the *Saccharomyces cerevisiae* genome using engineered sequence features and XGBoost, optimized via Bayesian tuning (Optuna).
+A bioinformatics machine learning pipeline to predict Open Reading Frames (ORFs) in the *Saccharomyces cerevisiae* genome using engineered sequence features and a GPU-accelerated XGBoost model, optimized via Bayesian tuning with Optuna.
 
 ---
 
-## Project Overview
+## Overview
 
-This project aims to distinguish between true coding ORFs and non-coding sequences based on genomic features. It uses a GPU-accelerated XGBoost model for classification.
+This project focuses on distinguishing coding from non-coding ORFs in the yeast genome using interpretable machine learning. By combining biologically inspired features with XGBoost and Optuna, we aim to identify patterns that correlate with protein-coding potential.
 
 ---
 
 ## Dataset
 
-**Input**: ORFs predicted from the yeast genome. Genome can be obtained via: https://www.ncbi.nlm.nih.gov/datasets/genome/GCF_000146045.2/
-
-**Features**:
-
-* `length_x`: Length of ORF in the X dimension
-* `length_y`: Length of ORF in the Y dimension
-* `stop_percent`: Proportion of stop codons
-* `gc_content`, `codon_usage`, etc. (optional additional features)
-
-**Target**: Binary label indicating if an ORF is a known gene (`1`) or not (`0`).
-
----
-
-## Pipeline Components
-
-1. **Preprocessing**: Feature scaling, missing value imputation (if needed).
-2. **Train-Test Split**: Stratified 75/25 split.
-3. **Bayesian Optimization**: XGBoost hyperparameters tuned with Optuna.
-4. **Model Training**: GPU-accelerated XGBoost (`device="cuda"`).
-5. **Evaluation**: Confusion Matrix, Classification report, ROC AUC.
-6. **Interpretability**: Feature importance.
+- **Source**: [NCBI Genome - GCF_000146045.2](https://www.ncbi.nlm.nih.gov/datasets/genome/GCF_000146045.2/)
+- **Inputs**: ORFs predicted from the reference *S. cerevisiae* genome.
+- **Features** (examples):
+  - `length_x`, `length_y`: Dimensions or coordinates of the ORF
+  - `stop_percent`: Proportion of stop codons
+  - `gc_content`: GC base content
+  - `codon_usage`: Relative codon frequencies
+- **Target**:
+  - Binary label: `1` = known gene, `0` = putative/non-coding
 
 ---
 
-## Results
+## 🔬 Pipeline Steps
 
-**Best AUC (Optuna)**: \~0.979
-**Test Set Performance**:
+1. **Preprocessing**
+   - Feature extraction & optional scaling
+   - Label encoding and merging feature + label sets
 
-* Precision: 0.96
-* Recall: 0.98
-* F1-score: 0.97
-* ROC AUC: 0.979
+2. **Train/Test Split**
+   - Stratified 75/25 split to maintain class balance
 
-**Top Features**:
+3. **Hyperparameter Tuning**
+   - Bayesian optimization via [Optuna](https://optuna.org/)
+   - 5-fold cross-validation using ROC AUC as the metric
 
-* `length_y`
-* `stop_percent`
-* `length_x`
+4. **Model Training**
+   - XGBoost classifier with `device='cuda'` for GPU acceleration
+   - Early stopping based on validation performance
+
+5. **Evaluation**
+   - Confusion Matrix
+   - Precision / Recall / F1-score
+   - ROC AUC
+
+6. **Interpretability**
+   - Feature importance plots
+   - Partial Dependence Plots (PDP)
 
 ---
 
-## Interpretability
+## ✅ Results
 
-Partial dependence plots showed plateauing effects of `length_y` and `length_x`, and a sharp drop for `stop_percent` below \~0.005.
+**Best ROC AUC (Optuna):** ~0.979  
+**Test Set Metrics:**
+
+| Metric     | Score |
+|------------|-------|
+| Precision  | 0.96  |
+| Recall     | 0.98  |
+| F1-score   | 0.97  |
+| ROC AUC    | 0.979 |
+
+**Top Features:**
+- `length_y`
+- `stop_percent`
+- `length_x`
 
 ---
 
-## Folder Structure
+## Interpretability Insights
 
-```
+Partial Dependence Plots (PDP) revealed:
+
+- `length_y` and `length_x` positively correlate with coding potential up to a plateau
+- `stop_percent` shows a strong negative impact when > 0.005
+
+These patterns reflect biological intuition and validate the model's interpretability.
+
+---
+
+## 🗂️ Project Structure
 yeast_orf_classifier/
-├── data/                   # Raw and processed data
-├── notebooks/              # EDA and training notebooks
-├── src/                    # Core source code
-│   ├── preprocessing.py
-│   ├── modeling.py
-│   ├── interpretability.py
-├── outputs/                # Saved models, plots, and metrics
-├── main.py                 # Main training script
-├── README.md               # Project documentation
-└── requirements.txt        # Dependencies
-```
-
----
+├── data/       # Raw and processed input data
+├── src/        # Modular source code
+├── outputs/    # Trained models, plots, reports
+├── main.py     # Main execution script
+├── README.md   # Project documentation
+└── requirements.txt   # Python dependencies
