@@ -1,7 +1,8 @@
-import pandas as pd
-import os
 import logging
+import os
+
 import gffutils
+import pandas as pd
 
 # Setup logging
 logging.basicConfig(level=logging.INFO)

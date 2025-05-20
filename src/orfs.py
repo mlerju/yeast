@@ -1,7 +1,9 @@
-import pandas as pd
-from collections import Counter
 import logging
-from constants import all_codons, stop_codons, get_all_kmers
+from collections import Counter
+
+import pandas as pd
+
+from constants import all_codons, get_all_kmers, stop_codons
 
 # Setup logging
 logger = logging.getLogger(__name__)

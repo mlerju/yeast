@@ -1,14 +1,16 @@
-import pandas as pd
-import numpy as np
 import logging
-from sklearn.model_selection import train_test_split, cross_val_score, StratifiedKFold
-from sklearn.metrics import classification_report, roc_auc_score, ConfusionMatrixDisplay
-from sklearn.preprocessing import LabelEncoder
-from sklearn.inspection import PartialDependenceDisplay
+
 import matplotlib.pyplot as plt
-import xgboost as xgb
+import numpy as np
 import optuna
-from xgboost.callback import EarlyStopping
+import pandas as pd
+import xgboost as xgb
+from sklearn.inspection import PartialDependenceDisplay
+from sklearn.metrics import (ConfusionMatrixDisplay, classification_report,
+                             roc_auc_score)
+from sklearn.model_selection import (StratifiedKFold, cross_val_score,
+                                     train_test_split)
+from sklearn.preprocessing import LabelEncoder
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 

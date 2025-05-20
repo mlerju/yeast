@@ -1,15 +1,17 @@
-import pandas as pd
-import numpy as np
+import logging
+from pathlib import Path
+
 import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
 import seaborn as sns
 from Bio import SeqIO
 from Bio.Seq import Seq
 from Bio.SeqRecord import SeqRecord
-from pathlib import Path
 from tqdm import tqdm
+
 import orfs
 from constants import all_codons
-import logging
 
 # Configure logging
 logging.basicConfig(
