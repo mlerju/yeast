@@ -16,7 +16,7 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(
 
 def load_and_prepare_data(feature_path, label_path):
     features_df = pd.read_csv("outputs/orf_features_with_kmers.csv")
-    labels_df = pd.read_csv("outputs/labeled_orfs.csv")
+    labels_df = pd.read_csv("outputs/orf_labeled.csv")
 
     merge_keys = ["start", "end", "strand", "frame", "chromosome"]
     df = features_df.merge(labels_df, on=merge_keys)
@@ -107,7 +107,7 @@ def cross_validate_model(xgb_model, X, y):
     logging.info(f"Mean ROC AUC: {scores.mean():.4f} ± {scores.std():.4f}")
 
 def main():
-    X, y, df = load_and_prepare_data("outputs/orf_features_with_kmers.csv", "outputs/labeled_orfs.csv")
+    X, y, df = load_and_prepare_data("outputs/orf_features_with_kmers.csv", "outputs/orf_labeled.csv")
 
     X_train, X_test, y_train, y_test = train_test_split(
         X, y, test_size=0.25, stratify=y, random_state=42
