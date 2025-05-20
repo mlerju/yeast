@@ -9,7 +9,7 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 # Paths
-INPUT_CSV = "../outputs/orf_features_with_kmers.csv"
+INPUT_CSV = "../outputs/orf_features_basic.csv"
 GFF_FILE = "../data/saccharomyces_cerevisiae.gff3"
 DB_PATH = "../outputs/yeast_genes.db"
 OUTPUT_CSV = "../outputs/orf_labeled.csv"
@@ -68,6 +68,10 @@ def main():
 
     logger.info("Applying labels to ORFs...")
     df['label'] = df.apply(lambda row: label_orf(row, db), axis=1)
+
+    # Reorder columns with 'label' to the front
+    cols = ['label'] + [col for col in df.columns if col!='label']
+    df = df[cols]
 
     logger.info("Saving labeled ORFs...")
     df.to_csv(OUTPUT_CSV, index=False)
