@@ -6,12 +6,10 @@ import numpy as np
 import pandas as pd
 import seaborn as sns
 from Bio import SeqIO
-from Bio.Seq import Seq
 from Bio.SeqRecord import SeqRecord
 from tqdm import tqdm
 
 import orfs
-from constants import all_codons
 
 # Configure logging
 logging.basicConfig(
