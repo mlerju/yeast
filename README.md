@@ -120,7 +120,7 @@ yeast_orf_classifier/
 │   ├── orf_features_basic.csv
 │   ├── orf_features_with_codon_usage.csv
 │   ├── orf_features_with_kmers.csv
-│   ├── labels_orf.csv
+│   ├── orf_labeled.csv
 │   ├── predicted_orfs.csv
 │   └── predicted_orfs.fasta
 ├── main.py     # Main execution script
